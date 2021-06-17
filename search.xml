@@ -4,6 +4,45 @@
   
     
     <entry>
+      <title>TSW马宝国杯 web</title>
+      <link href="/2021/06/17/TSW%E9%A9%AC%E5%AE%9D%E5%9B%BD%E6%9D%AF-web/"/>
+      <url>/2021/06/17/TSW%E9%A9%AC%E5%AE%9D%E5%9B%BD%E6%9D%AF-web/</url>
+      
+        <content type="html"><![CDATA[<hr><p><em><strong>这是一道不算特别难的web漏洞扫描及密码爆破题</strong></em></p><p>这次的web题又将引入新的工具：御剑后台扫描工具。这是一款非常强大的后台安全工具，话不多说，我们直接来看题。</p><p><img src="https://img-blog.csdnimg.cn/20201125083956401.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MTg2NjM2Mw==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>从题目的提示可以看出这个网页是存在漏洞的，这时我们直接掏出御剑后台扫描工具对这个网页进行扫描，首先要做的事情就是摆好阵型(<em>^▽^</em>)</p><p><img src="https://img-blog.csdnimg.cn/20201125084217411.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MTg2NjM2Mw==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>在御剑工具的域名栏我们把网页的地址输入进去开始扫描</p><p>扫描后可以看到有一个shell异常<br><img src="https://img-blog.csdnimg.cn/20201125084711855.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MTg2NjM2Mw==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>接下来我们对这个地址进行访问，出现了下面的这个页面</p><p><img src="https://img-blog.csdnimg.cn/20201125085923254.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MTg2NjM2Mw==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p><p>打开后是一个让输密码的页面，我们用burp对这个页面抓包<img src="https://img-blog.csdnimg.cn/20201125090030559.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MTg2NjM2Mw==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>但是我们现在并不能定位到输入密码的位置在哪里，所以我们要在密码框内输入一次密码再对其进行抓包（这里密码随便输，这里我输的是111）</p><p><img src="https://img-blog.csdnimg.cn/20201125090214328.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MTg2NjM2Mw==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>在抓包数据的最下方我们可以看到多出了一个密码位置，既然已经定位到了密码位置，那么接下来我们就可以对它进行爆破了（在数据包的位置右键 发送到intruder），接下来要做的就是先清除所有的那个变量，将爆破位置定位在pass后的111上<br><img src="https://img-blog.csdnimg.cn/20201125090607710.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MTg2NjM2Mw==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p><p>然后掏出祖传大字典开始爆破</p><p><img src="https://img-blog.csdnimg.cn/20201125090949539.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MTg2NjM2Mw==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p><p>在爆破结果中我们可以看到有一串长度异常的密码（其他都是1201，只有它是1193），点开之后可以看到密码是hack</p><p><img src="https://img-blog.csdnimg.cn/20201125091135226.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MTg2NjM2Mw==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p><p>输入密码之后下面就显示了flag，至此这道题就解决了。。。</p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>ctfshow web4</title>
+      <link href="/2021/06/17/ctfshow-web4/"/>
+      <url>/2021/06/17/ctfshow-web4/</url>
+      
+        <content type="html"><![CDATA[<hr><p>   本次解法使用工具：burpsuite和中国蚁剑</p><p>这是web3的进化版，老的方法已经行不通      了，只能通过日志注入得到shell</p><p>  这里我们输入默认目录获取日志                     ?url=/var/log/nginx/access.log</p><p><img src="https://img-blog.csdnimg.cn/20201122081229329.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MTg2NjM2Mw==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p><p><strong>之后就得到了日志文件</strong></p><p><img src="https://img-blog.csdnimg.cn/20201122081502651.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MTg2NjM2Mw==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>接下来就要进行日志注入，这里在参数中输入一句话木马 <?php @eval($_POST['a']);?>防止在重新发包是被URL编码<br><img src="https://img-blog.csdnimg.cn/20201122082807933.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MTg2NjM2Mw==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><em><strong>接下来就该掏出中国蚁剑啦</strong></em></p><p><img src="https://img-blog.csdnimg.cn/20201122083029321.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MTg2NjM2Mw==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>对日志注入后的网页进行连接可以发现在其www目录下有一个flag文件，这就是我们需要的flag了<br><img src="https://img-blog.csdnimg.cn/20201122083213797.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MTg2NjM2Mw==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p><p>点开它就可以看到flag了</p><p><img src="https://img-blog.csdnimg.cn/20201122083122619.png#pic_center" alt="在这里插入图片描述"></p><p><strong>总结</strong>：这对于web3来说算是一次提升，在php伪协议不可用时就可以使用这种方法</p><p><img src="https://img-blog.csdnimg.cn/20201122083628498.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MTg2NjM2Mw==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>ctfshow web3</title>
+      <link href="/2021/06/17/ctfshow-web3/"/>
+      <url>/2021/06/17/ctfshow-web3/</url>
+      
+        <content type="html"><![CDATA[<hr><p><strong>这一道题就不像web2那么简单了，不过在借助web安全神器burpsuite的情况下还是比较容易的。<br>接下来就来说明一下这道题的解法以及浅显地介绍一下burp工具的使用吧！！！</strong></p><p>看到这道题目提示我们可以知道这是一道php伪协议+文件包含漏洞的题目，先进行测试看看能不能通过  <strong>file:////etc/passwd</strong>打开其他页面，可以看到这里测试成功了</p><p><img src="https://img-blog.csdnimg.cn/20201120184450573.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MTg2NjM2Mw==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>接下来就要请出大杀器burpsuite登场了</p><p><img src="https://img-blog.csdnimg.cn/20201120212908127.png#pic_center" alt="在这里插入图片描述"><br>在这里需要先介绍一下burp以及浏览器（以火狐浏览器为例）的设置方法<br><img src="https://img-blog.csdnimg.cn/2020112021331057.png#pic_center" alt="在这里插入图片描述"></p><p>打开浏览器点击右上角的三道杠，之后找到选项，在常规中拉到最底下找到网络设置将服务器代理设置改为手动设置（设置如下）</p><p><img src="https://img-blog.csdnimg.cn/20201120213628525.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MTg2NjM2Mw==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>之后进入burp（安装教程这里就不赘述了，自行百度，切记burp需要在<strong>java</strong>环境下运行）</p><p>1.点击proxy找到options选项卡点击添加，将代理与端口设置到与之前浏览器设置的一致就ok</p><p><img src="https://img-blog.csdnimg.cn/20201120214038236.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MTg2NjM2Mw==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>之后点击intercept找到intercept开关（确保是开着的，颜色会变深）</p><p><img src="https://img-blog.csdnimg.cn/20201120214350959.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MTg2NjM2Mw==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>至此就可以实现对浏览器网页的嗅探与抓包（十分强大）</p><p><em><strong>接下来正式进入解题环节</strong></em></p><p>前文提到这道题是一个<strong>php伪协议+文件包含漏洞</strong>的题目<br>在这里我们使用php伪协议 php://input post 提交命令，同时使用burp对网页进行抓包，之后使用执行ls命令（<?php system("ls");?>）再对抓取到的数据包进行放包处理</p><p><img src="https://img-blog.csdnimg.cn/20201120215641465.png#pic_center" alt="在这里插入图片描述"></p><p>此时右方会出现ctf_go_go_go的字样,使用cat打开，过程如上输入<br><?php system ("cat ctf_go_go_go");?>重新进行放包处理</p><p>恭喜恭喜，至此就成功地得到了flag<br><img src="https://img-blog.csdnimg.cn/20201120221014130.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MTg2NjM2Mw==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><em><strong>祝愿每一个在ctf道路上奋斗的人能够早日成功上岸当菜鸡<br>                                       奥力给</strong></em></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>ctfshow web2</title>
       <link href="/2021/06/17/ctfshow-web2/"/>
       <url>/2021/06/17/ctfshow-web2/</url>
